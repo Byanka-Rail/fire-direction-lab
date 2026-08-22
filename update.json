@@ -1,7 +1,7 @@
 {
-  "version": "2.30.7.80",
-  "build": 2300780,
-  "file": "FIRE_DIRECTION_LAB_v2.30.7.80_수동확정잠금.html",
-  "notes": "수동확정잠금 · 수정해 사전검증",
+  "version": "2.30.7.82",
+  "build": 2300782,
+  "file": "FIRE_DIRECTION_LAB_v2.30.7.82_조정회랑실탄도선정_상승탄도차폐.html",
+  "notes": "조정회랑 실탄도 선정 · 상승탄도 차폐",
   "mandatory": false
 }
