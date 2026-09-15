@@ -1,7 +1,8 @@
 {
   "version": "2.30.8.0",
-  "build": 23007125,
-  "file": "FIRE_DIRECTION_LAB_v2.30.0.0.html",
-  "notes": "사향속 포요소",
+  "build": 23008000,
+  "file": "FIRE_DIRECTION_LAB_v2.30.8.0.html",
+  "sha256": "fff1fffa2a218d4936877790a3c92fde5d63000c15aa8682cb91f7a44763f9a4",
+  "notes": "FIRE DIRECTION LAB v2.30.8.0",
   "mandatory": false
 }
