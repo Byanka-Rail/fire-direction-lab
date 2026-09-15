@@ -1,7 +1,7 @@
 {
-  "version": "2.30.7.125",
+  "version": "2.30.8.0",
   "build": 23007125,
-  "file": "FIRE_DIRECTION_LAB_v2.30.7.125.html",
-  "notes": "입문과정 추가",
+  "file": "FIRE_DIRECTION_LAB_v2.30.0.0.html",
+  "notes": "사향속 포요소",
   "mandatory": false
 }
