@@ -1,8 +1,8 @@
 {
-  "version": "2.31.453.0",
-  "build": 23553000,
-  "file": "FIRE_DIRECTION_LAB_v2.31.453.0.html",
-  "sha256": "275be7b3195f1eb7d94148fb06cbaf7b8defc7780e6b6d9a1982d7a899fde123",
-  "notes": "FIRE DIRECTION LAB v2.31.453.0",
+  "version": "2.31.454.0",
+  "build": 23554000,
+  "file": "FIRE_DIRECTION_LAB_v2.31.454.0.html",
+  "sha256": "47ece6790bd0e81cc05234b7b2dc15f9cd09378b5c9deb1564c1f4f9bf261f3a",
+  "notes": "FIRE DIRECTION LAB v2.31.454.0",
   "mandatory": false
 }
