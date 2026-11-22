@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>FIRE DIRECTION LAB</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FDL">
+<meta name="theme-color" content="#0f171b">
+<style>
+html,body{margin:0;height:100%;background:#0f171b;color:#e9f1f3;font:15px/1.5 system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif}
+#game{position:fixed;left:0;top:0;width:100%;height:100%;border:0;display:none;background:#fff;
+  padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);box-sizing:border-box}
+#msg{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px}
+#msg b{color:#ffb547;font:800 20px ui-monospace,Menlo,monospace}
+#msg small{color:#a3b6bd}
+</style>
+</head>
+<body>
+<div id="msg"><b>FIRE DIRECTION LAB</b><span id="st">불러오는 중</span><small id="sub"></small></div>
+<iframe id="game" title="FIRE DIRECTION LAB" allow="fullscreen; clipboard-write"></iframe>
+<script>
+/* 웹앱(PWA) — 저장소 최상위의 update.json 이 가리키는 최신 판을 한 화면에 띄운다.
+   주소는 늘 이 index 라 «홈 화면에 추가»한 앱이 판이 바뀌어도 그대로 열린다. 저장(localStorage)은 같은 주소라 판이 바뀌어도 남는다.
+   한 번 연 판은 서비스 워커가 기기에 남겨 둬 오프라인에서도 열린다. */
+(function(){
+  var st=document.getElementById('st'),sub=document.getElementById('sub'),fr=document.getElementById('game');
+  if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
+  function show(file,ver){
+    fr.onload=function(){document.getElementById('msg').style.display='none';fr.style.display='block';try{document.title=fr.contentDocument.title||document.title}catch(e){}};
+    fr.src=file;st.textContent='v'+ver;
+  }
+  fetch('update.json',{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error(r.status);return r.json()})
+    .then(function(j){try{localStorage.setItem('fdl_pwa_last',JSON.stringify(j))}catch(e){}show(j.file,j.version)})
+    .catch(function(){var j=null;try{j=JSON.parse(localStorage.getItem('fdl_pwa_last')||'null')}catch(e){}
+      if(j&&j.file){sub.textContent='오프라인 — 마지막으로 연 판';show(j.file,j.version)}
+      else{st.textContent='연결이 필요합니다';sub.textContent='처음 한 번은 인터넷이 있어야 합니다'}});
+})();
+</script>
+</body>
+</html>
