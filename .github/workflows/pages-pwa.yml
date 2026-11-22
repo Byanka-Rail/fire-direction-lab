@@ -1,0 +1,58 @@
+name: Publish PWA (iOS 홈 화면용)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: fire-direction-lab-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build site (index · 서비스 워커 · 최신 판)
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re, shutil, json
+          rx = re.compile(r"^FIRE_DIRECTION_LAB_v(\d+)\.(\d+)\.(\d+)\.(\d+).*\.html$", re.I)
+          found = []
+          for p in Path('.').glob('FIRE_DIRECTION_LAB_v*.html'):
+              m = rx.match(p.name)
+              if m: found.append((tuple(map(int, m.groups())), p))
+          ver, game = max(found, key=lambda x: x[0])
+          out = Path('_site'); out.mkdir(exist_ok=True)
+          for f in ['index.html','sw.js','manifest.webmanifest','icon-192.png','icon-512.png','apple-touch-icon.png']:
+              shutil.copy(f, out/f)
+          shutil.copy(game, out/game.name)
+          # update.json 은 봇이 따로 커밋해 이 일이 못 볼 수 있다 — 사이트용은 여기서 최신 판으로 새로 쓴다
+          (out/'update.json').write_text(json.dumps({"version": '.'.join(map(str, ver)), "file": game.name}, ensure_ascii=False), encoding='utf-8')
+          (out/'.nojekyll').write_text('')
+          print('game =', game.name)
+          PY
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
